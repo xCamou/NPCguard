@@ -7,8 +7,7 @@ AddEventHandler('spawnFriendlyNPC', function(npcType)
     local npcConfig = Config.NPCTypes[npcType]
     
     if not npcConfig then
-        TriggerEvent('chat:addMessage', { args = { '^1SYSTEM', 'Ungültiger NPC-Typ.' } })
-        return
+        return TriggerEvent('chat:addMessage', { args = { '^1SYSTEM', 'Ungültiger NPC-Typ.' } })
     end
 
     local npcModel = GetHashKey(npcConfig.model)
@@ -29,15 +28,14 @@ AddEventHandler('spawnFriendlyNPC', function(npcType)
     SetPedArmour(npcPed, npcConfig.armour)
     GiveWeaponToPed(npcPed, GetHashKey(npcConfig.weapon), 250, false, true)
 
-    table.insert(spawnedNPCs, npcPed)
-
+    spawnedNPCs[#spawnedNPCs+1] = npcPed
     TriggerEvent('chat:addMessage', { args = { '^2SYSTEM', npcType .. ' wurde gespawnt und folgt dir nun.' } })
 end)
 
 -- Cleanup spawned NPCs when player disconnects
 AddEventHandler('playerDropped', function()
-    for _, npc in ipairs(spawnedNPCs) do
-        DeleteEntity(npc)
+    for k,v in pairs(spawnedNPCs) do
+        DeleteEntity(v)
     end
     spawnedNPCs = {}
 end)
