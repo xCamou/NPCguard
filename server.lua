@@ -1,5 +1,3 @@
-ESX = exports['es_extended']:getSharedObject()
-
 RegisterCommand('spawnnpc', function(source, args, rawCommand)
     local xPlayer = ESX.GetPlayerFromId(source)
     local npcType = args[1]
